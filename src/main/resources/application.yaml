@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: sequence_fk
+  datasource:
+    dynamic:
+      primary: master
+      datasource:
+        master:
+          driver-class-name: org.postgresql.Driver
+          url: jdbc:postgresql://xxx:xxx/xxx?useSSL=false&serverTimezone=Asia/Shanghai
+          username: xxx
+          password: xxx
