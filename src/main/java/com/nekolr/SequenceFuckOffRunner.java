@@ -92,15 +92,12 @@ public class SequenceFuckOffRunner {
 
                                                 // 更新序列
                                                 long nowValue = maxPk + 1;
-                                                PreparedStatement updateSequenceStatement = connection.prepareStatement("select setval('" + sequenceName + "', " + nowValue + ")");
-                                                ResultSet rs = updateSequenceStatement.executeQuery();
-                                                while (rs.next()) {
-                                                    long latestValue = rs.getLong(1);
-                                                    if (latestValue == nowValue) {
-                                                        log.info("更新序列：{} 当前值为：{} 成功", sequenceName, nowValue);
-                                                    } else {
-                                                        log.info("更新序列：{} 当前值为：{} 失败", sequenceName, nowValue);
-                                                    }
+                                                Statement updateSequenceStatement = connection.createStatement();
+                                                int rs = updateSequenceStatement.executeUpdate("alter sequence " + sequenceName + " restart with " + nowValue);
+                                                if (rs == 0) {
+                                                    log.info("更新序列：{} 当前值为：{} 成功", sequenceName, nowValue);
+                                                } else {
+                                                    log.info("更新序列：{} 当前值为：{} 失败", sequenceName, nowValue);
                                                 }
                                             }
                                         }
